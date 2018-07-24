@@ -1,9 +1,9 @@
 #include <Adafruit_VL53L0X.h>
 
-
 Adafruit_VL53L0X laser = Adafruit_VL53L0X();
 
 VL53L0X_RangingMeasurementData_t dist;
+// Initializes the pin connections on the board
 const int button = 3;
 const int headphones = 4;
 
@@ -32,10 +32,8 @@ void loop()
 {  
   while(digitalRead(button) == HIGH)
   {
-    Serial.println("pressed");
     laser.rangingTest(&dist, false); 
-    // pass in 'true' to get debug data printout!
-
+    
     // checks for failure
     if(dist.RangeStatus != 4) 
     {  
@@ -47,7 +45,7 @@ void loop()
     {
       Serial.println(" out of range ");
     }
-    // takes a rolling average of values so that the tone is smoother
+    // takes a rolling average of values so that the tone produced is smoother
     val[count%5] = float(dist.RangeMilliMeter);
     for(int i = 0; i < 5; i++)
     {
